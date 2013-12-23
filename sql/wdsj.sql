@@ -37,10 +37,10 @@ CREATE TABLE html(
        PRIMARY KEY (doi_suffix, version, user_id)
 );
 
-INSERT INTO landingPage VALUE(1,1,'E1','F1');
-INSERT INTO landingPage VALUE(2,2,'E2','F2');
-INSERT INTO landingPage VALUE(3,3,'E3','F3');
-INSERT INTO landingPage VALUE(4,4,'E4','F4');
+INSERT INTO html VALUE(1,1,'E1','F1');
+INSERT INTO html VALUE(2,2,'E2','F2');
+INSERT INTO html VALUE(3,3,'E3','F3');
+INSERT INTO html VALUE(4,4,'E4','F4');
 
 --
 
