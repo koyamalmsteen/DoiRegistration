@@ -54,10 +54,9 @@
   <target name="dropzone" description="Download dropzone and install it">
     <get src="${src_dropzone}" dest="${dst_dropzone}" usetimestamp="true"/>
     <unzip src="${dst_dropzone}" dest="${src}"/>
-    <copy todir="/var/www/html/misc" overwrite="true">
-      <fileset dir="${src}/${dropzone_prefix}/downloads" />
+    <copy todir="/var/www/html/${dropzone_prefix}" overwrite="true">
+      <fileset dir="${src}/${dropzone_prefix}" />
     </copy>
-    <echo message="${src}/${dropzone_prefix}/downloads" />
   </target>
 
   <target name="drupal" description="Install drupal">
