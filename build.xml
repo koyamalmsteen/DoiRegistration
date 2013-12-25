@@ -44,7 +44,7 @@
       <arg line="-e 'flush privileges'" />
     </exec>
 
-    <antcall name="mysql" />
+    <antcall target="mysql" />
 
     <exec executable="setenforce">
       <arg value="0" />
