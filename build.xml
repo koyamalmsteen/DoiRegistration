@@ -43,6 +43,20 @@
     <exec executable="mysql">
       <arg line="-e 'flush privileges'" />
     </exec>
+
+    <antcall name="mysql" />
+
+    <exec executable="setenforce">
+      <arg value="0" />
+    </exec>
+    <replace file="/etc/selinux/config" token="SELINUX=enforcing" value="SELINUX=permissive" />
+  </target>
+
+  <target name="mysql">
+    <exec executable="chkconfig">
+      <arg value="mysqld" />
+      <arg value="on" />
+    </exec>
   </target>
 
   <target name="html" description="Copy html directory into /var/www">
