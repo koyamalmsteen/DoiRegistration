@@ -189,7 +189,7 @@
     </exec>
   </target>
 
-  <target name="saxon">
+  <target name="saxon" description="Install saxon-he">
     <get src="${src_saxon}" dest="${dst_saxon}" usetimestamp="true"/>
     <unzip src="${dst_saxon}" dest="${src}"/>
     <mkdir dir="/var/www/html/saxon/lib" />
@@ -197,6 +197,12 @@
       <fileset file="${src}/saxon9he.jar" />
       <fileset file="${src}/saxon9-unpack.jar" />
     </copy>
+  </target>
+
+  <target name="tools" description="Install tools">
+    <subant target="all">
+      <fileset dir="../IugonetMetadataEditor" includes="*/build.xml" />
+    </subant>
   </target>
   
 </project>
