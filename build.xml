@@ -63,6 +63,7 @@
     <copy todir="/var/www/html">
       <fileset dir="html" />
     </copy>
+    <chown file="/var/www/html/uploads" owner="apache"/>
   </target>
 
   <target name="dropzone" description="Download dropzone and install it">
