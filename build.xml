@@ -211,7 +211,7 @@
 
   <target name="tools" description="Install tools">
     <subant target="all">
-      <fileset dir="../IugonetMetadataEditor" includes="*/build.xml" />
+      <fileset dir="../IugonetMetadataEditor" includes="**/build.xml" />
     </subant>
   </target>
   
