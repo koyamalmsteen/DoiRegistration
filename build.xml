@@ -213,6 +213,9 @@
     <subant target="all">
       <fileset dir="../IugonetMetadataEditor" includes="**/build.xml" />
     </subant>
+    <subant target="install">
+      <fileset dir="../IugonetMetadataEditor" includes="**/build.xml" />
+    </subant>
   </target>
   
 </project>
