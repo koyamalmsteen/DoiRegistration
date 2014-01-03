@@ -167,6 +167,8 @@
   </target>
 
   <target name="archive-dump" description="Archive-dump">
+    <!-- -->
+    <delete dir="/var/www/html/tools"/>
     <exec executable="drush" dir="/var/www/html">
       <arg line="archive-dump --destination=${env.PWD}/${drush_backup}"/>
     </exec>
