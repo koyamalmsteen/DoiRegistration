@@ -6,6 +6,8 @@
 
   <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, d2rq, saxon, final_message" description="Install all"/>
 
+  <target name="full" depends="all, tools" description="After Install all, it start to install IUGONET Metadata Editor" />
+
   <target name="clean" description="Clean">
     <delete dir="/var/www/html"/>
     <mkdir dir="/var/www/html"/>
