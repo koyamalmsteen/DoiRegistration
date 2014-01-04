@@ -59,6 +59,8 @@
       <arg value="0" />
     </exec>
     <replace file="/etc/selinux/config" token="SELINUX=enforcing" value="SELINUX=permissive" />
+
+    <antcall target="getIpAddress" />
   </target>
 
   <target name="mysql">
