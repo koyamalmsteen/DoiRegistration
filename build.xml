@@ -16,6 +16,13 @@
     </exec>
   </target>
 
+  <target name="getIpAddress" description="Get IP Address">
+    <exec executable="/bin/bash" outputproperty="ip_address">
+      <arg value="-c" />
+      <arg value="/sbin/ifconfig | awk '{if (NR==2){sub(&quot;addr:&quot;,&quot;&quot;,$2);print $2}}'" />
+    </exec>
+  </target>
+
   <target name="init" description="Initialize">
     <mkdir dir="${src}"/>
     <exec executable="yum">
