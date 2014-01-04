@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="LODinSTP" default="all" basedir=".">
+<project name="DoiRegistration" default="all" basedir=".">
   <property environment="env"/>
   <property file="build.properties"/>
   <property name="hostname" value="${env.HOSTNAME}"/>
@@ -169,6 +169,7 @@
   <target name="archive-dump" description="Archive-dump">
     <!-- -->
     <delete dir="/var/www/html/tools"/>
+    <delete dir="/var/www/html/uploads"/>
     <exec executable="drush" dir="/var/www/html">
       <arg line="archive-dump --destination=${env.PWD}/${drush_backup}"/>
     </exec>
