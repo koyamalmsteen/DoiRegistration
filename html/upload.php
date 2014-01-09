@@ -9,12 +9,23 @@ function upload(){
     $targetFile = $targetPath.$_FILES['file']['name'];
     move_uploaded_file($tempFile, $targetFile);
   }
-  }
 
-function insert(){
+  return $targetFile
+}
+
+function getDoi($argc){
+  // Create a new DOMDocument instance
+  $dom = new DOMDocument;
+  $dom->load($argc);
+
+  // if the metadata's resource type is Document/Catalog/DisplayData/NumericalData, retrieve DOI
+}
+
+function insertIugonet(){
   echo "HOGE";
 }
 
-upload();
-insert();
+$targetFile=upload();
+getDoi($targetFile);
+insertIugonet();
 ?>
