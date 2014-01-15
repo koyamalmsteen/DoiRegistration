@@ -10,7 +10,6 @@ CREATE TABLE jalc(
 INSERT INTO jalc VALUE(1,1,'A1','B1');
 INSERT INTO jalc VALUE(2,2,'A2','B2');
 INSERT INTO jalc VALUE(3,3,'A3','B3');
-INSERT INTO jalc VALUE(4,4,'A4','B4');
 
 --
 
@@ -25,7 +24,6 @@ CREATE TABLE iugonet(
 INSERT INTO iugonet VALUE(1,1,'C1','D1');
 INSERT INTO iugonet VALUE(2,2,'C2','D2');
 INSERT INTO iugonet VALUE(3,3,'C3','D3');
-INSERT INTO iugonet VALUE(4,4,'C4','D4');
 
 --
 
@@ -40,7 +38,6 @@ CREATE TABLE html(
 INSERT INTO html VALUE(1,1,'E1','F1');
 INSERT INTO html VALUE(2,2,'E2','F2');
 INSERT INTO html VALUE(3,3,'E3','F3');
-INSERT INTO html VALUE(4,4,'E4','F4');
 
 --
 
