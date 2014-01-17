@@ -21,11 +21,45 @@ function getDoi($argc){
   // if the metadata's resource type is Document/Catalog/DisplayData/NumericalData, retrieve DOI
 }
 
-function insertIugonet(){
+function insertIntoIugonetTable(){
   echo "HOGE";
 }
 
+function errorHandling($errorNo){
+  // delete file;  
+  switch ($errorNo) {
+  case 1:
+    fputs(STDERR,"checkFileType() error!");
+    break;
+  case 2:
+    fputs(STDERR,"validateXML() error!");
+    break;
+  case 3:
+    fputs(STDERR,"checkDoiPrefix() error!");
+    break;
+  case 4:
+    fputs(STDERR,"insertIntoIugonetTable() error!");
+    break;
+  default:
+    fputs(STDERR,"Unknown erroNo!");
+  }
+  // print error message;
+}
+
+function checkFileType(){
+
+}
+
+function validateXML(){
+
+}
+
+function checkDoiPrefix(){
+
+}
+
 $targetFile=upload();
+checkFileType();
 getDoi($targetFile);
-insertIugonet();
+insertIntoIugonetTable();
 ?>
