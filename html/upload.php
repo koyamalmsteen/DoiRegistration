@@ -1,5 +1,11 @@
 <?php
+$targetPath = "";
+$targetFile = "";
+$doi = "";
+
 function upload(){
+  global $targetPath, $targetFile;
+
   $ds = DIRECTORY_SEPARATOR;
   $storeFolder = 'uploads';
 
@@ -10,56 +16,97 @@ function upload(){
     move_uploaded_file($tempFile, $targetFile);
   }
 
-  return $targetFile
-}
-
-function getDoi($argc){
-  // Create a new DOMDocument instance
-  $dom = new DOMDocument;
-  $dom->load($argc);
-
-  // if the metadata's resource type is Document/Catalog/DisplayData/NumericalData, retrieve DOI
-}
-
-function insertIntoIugonetTable(){
-  echo "HOGE";
-}
-
-function errorHandling($errorNo){
-  // delete file;  
-  switch ($errorNo) {
-  case 1:
-    fputs(STDERR,"checkFileType() error!");
-    break;
-  case 2:
-    fputs(STDERR,"validateXML() error!");
-    break;
-  case 3:
-    fputs(STDERR,"checkDoiPrefix() error!");
-    break;
-  case 4:
-    fputs(STDERR,"insertIntoIugonetTable() error!");
-    break;
-  default:
-    fputs(STDERR,"Unknown erroNo!");
-  }
-  // print error message;
+  return 0;
 }
 
 function checkFileType(){
+  global $targetFile;
 
+  $finfo = finfo_open(FILEINFO_MIME_TYPE);
+  $fp = fopen("/tmp/test","w+");
+  fwrite($fp, finfo_file($finfo,$targetFile));
+  fclose($fp);
+
+  if( finfo_file($finfo, $targetFile) != "application/xml"){
+    errorHandling(__FUNCTION__);
+  }
 }
 
 function validateXML(){
+  global $targetFile;
 
+  $xml = new DOMDocument();
+  $xml->load($targetFile);
+
+  $fp = fopen("/tmp/test3","w+");
+
+  if( !$xml->schemaValidate('http://www.iugonet.org/data/schema/iugonet-2_2_2_4.xsd') ){
+    errorHandling(__FUNCTION__);
+    fwrite($fp, "invalid");
+  }else{
+
+  }
+
+  fclose($fp);
+}
+
+function getDoi(){
+  global $targetFile;
+  global $doi;
+
+  // Create a new DOMDocument instance
+  $dom = new DOMDocument;
+  $dom->load($targetFile);
+
+  $fp = fopen("/tmp/test4","w+");
+  fwrite($fp, "DOIOHOHOHOHO");
+  fclose($fp);
+
+  // if the metadata's resource type is Document/Catalog/DisplayData/NumericalData, retrieve DOI
+  $doi = '10.1234/4567';
+}
+
+function insertIntoIugonetTable(){
+  global $doi;
+
+  $link = mysql_connect('localhost','selectOnlyUser','pass');
+  if (!$link){
+    die('[WDSJ] Connection Error'.mysql_error());
+  }
+ 
+  $db_selected = mysql_select_db('wdsj', $link);
+  if (!$db_selected){
+    die('[WDSJ] Database Selection Error'.mysql_error());
+  }
+  
+  $result = mysql_query('INSERT INTO iugonet VALUES("")');
+  if (!$result) {
+    die('[WDSJ] Query failed.'.mysql_error());
+  }
+  echo "HOGE";
+}
+
+function errorHandling($errorFunctionName){
+  $fp = fopen("/tmp/test2","w+");
+  // delete file;  
+
+  //    fputs(STDERR, $errorFunctioname);
+  fwrite($fp, $errorFunctionName."() error!");
+
+  fclose($fp);
+  // print error message;
 }
 
 function checkDoiPrefix(){
 
 }
 
-$targetFile=upload();
+$up = upload();
+if( $up == 0 ){
+  echo "HOGE";
+}
 checkFileType();
-getDoi($targetFile);
+//validateXML();
+getDoi();
 insertIntoIugonetTable();
 ?>
