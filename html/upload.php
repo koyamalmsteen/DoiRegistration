@@ -2,6 +2,7 @@
 $targetPath = "";
 $targetFile = "";
 $doi = "";
+$dom = "";
 
 function upload(){
   global $targetPath, $targetFile;
@@ -32,15 +33,20 @@ function checkFileType(){
   }
 }
 
-function validateXML(){
+function readXML(){
   global $targetFile;
+  global $dom;
 
-  $xml = new DOMDocument();
-  $xml->load($targetFile);
+  $dom = new DOMDocument();
+  $dom->load($targetFile);
+}
+
+function validateXML(){
+  global $dom;
 
   $fp = fopen("/tmp/test3","w+");
 
-  if( !$xml->schemaValidate('http://www.iugonet.org/data/schema/iugonet-2_2_2_4.xsd') ){
+  if( !$dom->schemaValidate('http://www.iugonet.org/data/schema/iugonet-2_2_2_4.xsd') ){
     errorHandling(__FUNCTION__);
     fwrite($fp, "invalid");
   }else{
@@ -53,10 +59,7 @@ function validateXML(){
 function getDoi(){
   global $targetFile;
   global $doi;
-
-  // Create a new DOMDocument instance
-  $dom = new DOMDocument;
-  $dom->load($targetFile);
+  global $dom;
 
   $fp = fopen("/tmp/test4","w+");
   fwrite($fp, "DOIOHOHOHOHO");
@@ -67,6 +70,7 @@ function getDoi(){
 }
 
 function insertIntoIugonetTable(){
+  global $targetFile;
   global $doi;
 
   $link = mysql_connect('localhost','insertOnlyUser','pass');
@@ -79,11 +83,18 @@ function insertIntoIugonetTable(){
     die('[WDSJ] Database Selection Error'.mysql_error());
   }
 
-  $result = mysql_query("INSERT INTO iugonet VALUES(4,4,'C4','D4')");
+  $fp = fopen($targetFile,"r");
+  $xml = fread($fp, filesize($targetFile));
+  fclose($fp);
+
+  $fp = fopen("/tmp/test5","w+");
+  fwrite($fp, $xml);
+  fclose($fp);
+
+  $result = mysql_query("INSERT INTO iugonet VALUES(4,4,'C4','".$xml."')");
   if (!$result) {
     die('[WDSJ] Query failed.'.mysql_error());
   }
-  echo "HOGE";
 }
 
 function errorHandling($errorFunctionName){
@@ -106,6 +117,7 @@ if( $up == 0 ){
   echo "HOGE";
 }
 checkFileType();
+readXML();
 //validateXML();
 getDoi();
 insertIntoIugonetTable();
