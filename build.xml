@@ -44,10 +44,21 @@
       <arg value="-e" />
       <arg line="'CREATE USER selectOnlyUser@localhost IDENTIFIED BY &quot;pass&quot;'" />
     </exec>
-
     <exec executable="mysql">
       <arg value="-e" />
       <arg line="'GRANT select ON *.* TO selectOnlyUser@localhost'" />
+    </exec>
+    <exec executable="mysql">
+      <arg line="-e 'flush privileges'" />
+    </exec>
+
+    <exec executable="mysql">
+      <arg value="-e" />
+      <arg line="'CREATE USER insertOnlyUser@localhost IDENTIFIED BY &quot;pass&quot;'" />
+    </exec>
+    <exec executable="mysql">
+      <arg value="-e" />
+      <arg line="'GRANT insert ON *.* TO insertOnlyUser@localhost'" />
     </exec>
     <exec executable="mysql">
       <arg line="-e 'flush privileges'" />
