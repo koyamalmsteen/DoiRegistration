@@ -69,17 +69,17 @@ function getDoi(){
 function insertIntoIugonetTable(){
   global $doi;
 
-  $link = mysql_connect('localhost','selectOnlyUser','pass');
+  $link = mysql_connect('localhost','insertOnlyUser','pass');
   if (!$link){
     die('[WDSJ] Connection Error'.mysql_error());
   }
- 
+
   $db_selected = mysql_select_db('wdsj', $link);
   if (!$db_selected){
     die('[WDSJ] Database Selection Error'.mysql_error());
   }
-  
-  $result = mysql_query('INSERT INTO iugonet VALUES("")');
+
+  $result = mysql_query("INSERT INTO iugonet VALUES(4,4,'C4','D4')");
   if (!$result) {
     die('[WDSJ] Query failed.'.mysql_error());
   }

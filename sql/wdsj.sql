@@ -1,3 +1,17 @@
+CREATE TABLE iugonet(
+       doi_suffix INTEGER UNIQUE NOT NULL,
+       version INTEGER NOT NULL,
+       user_id INTEGER NOT NULL,
+       metadata TEXT NOT NULL,
+       PRIMARY KEY (doi_suffix, version, user_id)
+);
+
+INSERT INTO iugonet VALUE(1,1,'C1','D1');
+INSERT INTO iugonet VALUE(2,2,'C2','D2');
+INSERT INTO iugonet VALUE(3,3,'C3','D3');
+
+--
+
 CREATE TABLE jalc(
 
        doi_suffix INTEGER UNIQUE NOT NULL,
@@ -10,20 +24,6 @@ CREATE TABLE jalc(
 INSERT INTO jalc VALUE(1,1,'A1','B1');
 INSERT INTO jalc VALUE(2,2,'A2','B2');
 INSERT INTO jalc VALUE(3,3,'A3','B3');
-
---
-
-CREATE TABLE iugonet(
-       doi_suffix INTEGER UNIQUE NOT NULL,
-       version INTEGER NOT NULL,
-       user_id INTEGER NOT NULL,
-       metadata TEXT NOT NULL,
-       PRIMARY KEY (doi_suffix, version, user_id)
-);
-
-INSERT INTO iugonet VALUE(1,1,'C1','D1');
-INSERT INTO iugonet VALUE(2,2,'C2','D2');
-INSERT INTO iugonet VALUE(3,3,'C3','D3');
 
 --
 
