@@ -69,7 +69,7 @@ function getDoi(){
   $doi = '10.1234/4567';
 }
 
-function insertIntoIugonetTable(){
+function insertIntoIUGONET(){
   global $targetFile;
   global $doi;
 
@@ -97,6 +97,90 @@ function insertIntoIugonetTable(){
   }
 }
 
+transformIntoJaLC(){
+  global $targetFile;
+  global $doi;
+
+  $link =   $link = mysql_connect('localhost','insertOnlyUser','pass');
+  if (!$link){
+    die('[WDSJ] Connection Error'.mysql_error());
+  }
+
+  $db_selected = mysql_select_db('wdsj', $link);
+  if (!$db_selected){
+    die('[WDSJ] Database Selection Error'.mysql_error());
+  }
+
+  $fp = fopen($targetFile,"r");
+  $xml = fread($fp, filesize($targetFile));
+  fclose($fp);
+
+  $fp = fopen("/tmp/test6","w+");
+  fwrite($fp, $xml);
+  fclose($fp);
+
+  $result = mysql_query("INSERT INTO jalc VALUES('".$doi."',4,'C4','".$xml."')");
+  if (!$result) {
+    die('[WDSJ] Query failed.'.mysql_error());
+  }
+
+  //
+  $jarFilePath = "C:/temp/SomeModel.jar";
+
+  //
+  $cmd = escapeshellcmd("java -jar".$jarFilePath);
+
+  //
+  $result = shell_exec($cmd);
+  if($result){
+    echo $result;
+  }else if($result==false){
+    echo "NG";
+  }
+}
+
+transformIntoHTML(){
+  global $targetFile;
+  global $doi;
+
+  $link =   $link = mysql_connect('localhost','insertOnlyUser','pass');
+  if (!$link){
+    die('[WDSJ] Connection Error'.mysql_error());
+  }
+
+  $db_selected = mysql_select_db('wdsj', $link);
+  if (!$db_selected){
+    die('[WDSJ] Database Selection Error'.mysql_error());
+  }
+
+  $fp = fopen($targetFile,"r");
+  $xml = fread($fp, filesize($targetFile));
+  fclose($fp);
+
+  $fp = fopen("/tmp/test7","w+");
+  fwrite($fp, $xml);
+  fclose($fp);
+
+  $result = mysql_query("INSERT INTO html VALUES('".$doi."',4,'C4','".$xml."')");
+  if (!$result) {
+    die('[WDSJ] Query failed.'.mysql_error());
+  }
+
+  //
+  $jarFilePath = "C:/temp/SomeModel.jar";
+
+  //
+  $cmd = escapeshellcmd("java -jar".$jarFilePath);
+
+  //
+  $result = shell_exec($cmd);
+  if($result){
+    echo $result;
+  }else if($result==false){
+    echo "NG";
+  }
+}
+
 function errorHandling($errorFunctionName){
   $fp = fopen("/tmp/test2","w+");
   // delete file;  
@@ -120,5 +204,7 @@ checkFileType();
 readXML();
 //validateXML();
 getDoi();
-insertIntoIugonetTable();
+insertIntoIUGONET();
+transformIntoJaLC();
+transformIntoHTML();
 ?>
