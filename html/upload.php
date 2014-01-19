@@ -91,7 +91,7 @@ function insertIntoIugonetTable(){
   fwrite($fp, $xml);
   fclose($fp);
 
-  $result = mysql_query("INSERT INTO iugonet VALUES(4,4,'C4','".$xml."')");
+  $result = mysql_query("INSERT INTO iugonet VALUES(".$doi."4,4,'C4','".$xml."')");
   if (!$result) {
     die('[WDSJ] Query failed.'.mysql_error());
   }
