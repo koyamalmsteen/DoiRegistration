@@ -97,7 +97,7 @@ function insertIntoIUGONET(){
   }
 }
 
-transformIntoJaLC(){
+function transformIntoJaLC(){
   global $targetFile;
   global $doi;
 
@@ -105,7 +105,7 @@ transformIntoJaLC(){
   if (!$link){
     die('[WDSJ] Connection Error'.mysql_error());
   }
-
+  
   $db_selected = mysql_select_db('wdsj', $link);
   if (!$db_selected){
     die('[WDSJ] Database Selection Error'.mysql_error());
@@ -125,7 +125,7 @@ transformIntoJaLC(){
   }
 
   //
-  $jarFilePath = "C:/temp/SomeModel.jar";
+  $jarFilePath = "saxon/lib/saxon9he.jar";
 
   //
   $cmd = escapeshellcmd("java -jar".$jarFilePath);
@@ -139,7 +139,7 @@ transformIntoJaLC(){
   }
 }
 
-transformIntoHTML(){
+function transformIntoHTML(){
   global $targetFile;
   global $doi;
 
@@ -167,7 +167,7 @@ transformIntoHTML(){
   }
 
   //
-  $jarFilePath = "C:/temp/SomeModel.jar";
+  $jarFilePath = "saxon/lib/saxon9he.jar";
 
   //
   $cmd = escapeshellcmd("java -jar".$jarFilePath);
