@@ -97,9 +97,13 @@ function insertIntoIUGONET(){
   }
 }
 
-function transformIntoJaLC(){
+function transformXML($into){
   global $targetFile;
   global $doi;
+
+  if( $into!="jalc" and $into!="html" ){
+    die('[WDSJ] Error ]'.__FUNCTION__);
+  }
 
   $link =   $link = mysql_connect('localhost','insertOnlyUser','pass');
   if (!$link){
@@ -119,7 +123,7 @@ function transformIntoJaLC(){
   fwrite($fp, $xml);
   fclose($fp);
 
-  $result = mysql_query("INSERT INTO jalc VALUES('".$doi."',4,'C4','".$xml."')");
+  $result = mysql_query("INSERT INTO ".$into." VALUES('".$doi."',4,'C4','".$xml."')");
   if (!$result) {
     die('[WDSJ] Query failed.'.mysql_error());
   }
@@ -128,49 +132,7 @@ function transformIntoJaLC(){
   $jarFilePath = "saxon/lib/saxon9he.jar";
 
   //
-  $cmd = escapeshellcmd("java -jar".$jarFilePath);
-
-  //
-  $result = shell_exec($cmd);
-  if($result){
-    echo $result;
-  }else if($result==false){
-    echo "NG";
-  }
-}
-
-function transformIntoHTML(){
-  global $targetFile;
-  global $doi;
-
-  $link =   $link = mysql_connect('localhost','insertOnlyUser','pass');
-  if (!$link){
-    die('[WDSJ] Connection Error'.mysql_error());
-  }
-
-  $db_selected = mysql_select_db('wdsj', $link);
-  if (!$db_selected){
-    die('[WDSJ] Database Selection Error'.mysql_error());
-  }
-
-  $fp = fopen($targetFile,"r");
-  $xml = fread($fp, filesize($targetFile));
-  fclose($fp);
-
-  $fp = fopen("/tmp/test7","w+");
-  fwrite($fp, $xml);
-  fclose($fp);
-
-  $result = mysql_query("INSERT INTO html VALUES('".$doi."',4,'C4','".$xml."')");
-  if (!$result) {
-    die('[WDSJ] Query failed.'.mysql_error());
-  }
-
-  //
-  $jarFilePath = "saxon/lib/saxon9he.jar";
-
-  //
-  $cmd = escapeshellcmd("java -jar".$jarFilePath);
+  $cmd = escapeshellcmd("java -jar".$jarFilePath."-o hoge.xml -xsd -xsl -xslversion 2 ");
 
   //
   $result = shell_exec($cmd);
@@ -205,6 +167,6 @@ readXML();
 //validateXML();
 getDoi();
 insertIntoIUGONET();
-transformIntoJaLC();
-transformIntoHTML();
+transform("jalc");
+transform("html");
 ?>
