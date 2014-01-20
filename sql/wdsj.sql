@@ -1,7 +1,7 @@
 CREATE TABLE xml_type(
        xml_type_id INTEGER unique not null,
        xml_type CHAR(255) unique not null,
-       PRIMARY KEY (number)
+       PRIMARY KEY (xml_type_id)
 );
 
 INSERT INTO xml_type(1,'IUGONET');
