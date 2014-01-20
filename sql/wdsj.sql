@@ -1,25 +1,26 @@
-CREATE TABLE xml_type(
-       xml_type_id INTEGER unique not null,
-       xml_type CHAR(255) unique not null,
-       PRIMARY KEY (xml_type_id)
+CREATE TABLE doc_type(
+       doc_type_id INTEGER unique not null,
+       doc_type CHAR(255) unique not null,
+       PRIMARY KEY (doc_type_id)
 );
 
-INSERT INTO xml_type(1,'IUGONET');
-INSERT INTO xml_type(2,'JaLC');
-INSERT INTO xml_type(3,'XHTML');
+INSERT INTO doc_type VALUES(1,'IUGONET');
+INSERT INTO doc_type VALUES(2,'JaLC');
+INSERT INTO doc_type VALUES(3,'XHTML');
 
 --
 
-CREATE TABLE xml(
+CREATE TABLE doc(
        doi_suffix CHAR(255) UNIQUE NOT NULL,	
        version INTEGER NOT NULL,
        user_id INTEGER NOT NULL,
-       xml_type_id INTEGER NOT NULL,
-       metadata TEXT NOT NULL,
-       PRIMARY KEY (doi_suffix, version, user_id, xml_type_id),
-       FOREIGN KEY (xml_type_id) REFERENCES xml_type(xml_type_id)
+       doc_type_id INTEGER NOT NULL,
+       document TEXT NOT NULL,
+       PRIMARY KEY (doi_suffix, version, user_id, doc_type_id),
+       FOREIGN KEY (doc_type_id) REFERENCES doc_type(doc_type_id)
 );
 
+/*
 CREATE TABLE iugonet(
        doi_suffix CHAR(255) UNIQUE NOT NULL,
        version INTEGER NOT NULL,
@@ -59,3 +60,4 @@ INSERT INTO html VALUE('I1',1,'K1','L1');
 INSERT INTO html VALUE('I2',2,'K2','L2');
 
 --
+*/
