@@ -4,6 +4,14 @@ $targetFile = '';
 $doi = '';
 $dom = '';
 
+$dsn = 'mysql:dbname=wdsj;host=localhost';
+$user = 'insertOnlyUser';
+$password = 'pass';
+$dbn = '';
+
+$xml = '';
+$jarFilePath = "saxon/lib/saxon9he.jar";
+
 function upload(){
   global $targetPath, $targetFile;
 
@@ -24,9 +32,6 @@ function checkFileType(){
   global $targetFile;
 
   $finfo = finfo_open(FILEINFO_MIME_TYPE);
-  $fp = fopen("/tmp/test","w+");
-  fwrite($fp, finfo_file($finfo,$targetFile));
-  fclose($fp);
 
   if( finfo_file($finfo, $targetFile) != "application/xml"){
     errorHandling(__FUNCTION__, '');
@@ -63,14 +68,13 @@ function getDoi(){
 function insertIntoIUGONET(){
   global $targetFile;
   global $doi;
+  global $dsn;
+  global $user;
+  global $password;
+  global $dbn;
 
-  $link = mysql_connect('localhost','insertOnlyUser','pass');
-  if (!$link){
-    errorHandling(__FUNCTION__, mysql_error());
-  }
-
-  $db_selected = mysql_select_db('wdsj', $link);
-  if (!$db_selected){
+  $dbn = new PDO($dsn, $user, $password);
+  if (!dbn){
     errorHandling(__FUNCTION__, mysql_error());
   }
 
@@ -79,11 +83,9 @@ function insertIntoIUGONET(){
   fclose($fp);
 
   $query = "INSERT INTO doc VALUES('".$doi."',1,1,1,'".$xml."')";
-  $fp = fopen("/tmp/test5","w+");
-  fwrite($fp, $query);
-  fclose($fp);
-  $result = mysql_query($query);
-  if (!$result) {
+
+  $stmt = $dbn->query($query);
+  if (!$stmt){
     errorHandling(__FUNCTION__, mysql_error());
   }
 }
@@ -91,75 +93,60 @@ function insertIntoIUGONET(){
 function transform($into){
   global $targetFile;
   global $doi;
+  global $dsn;
+  global $user;
+  global $password;
+  global $dbn;
+
+  global $xml;
+  global $jarFilePath;
 
   if( $into!="jalc" and $into!="html" ){
-    errorHandling(__FUNCTION__, mysql_error());
+    errorHandling(__FUNCTION__, 'argument error');
   }
-
-  $link =   $link = mysql_connect('localhost','insertOnlyUser','pass');
-  if (!$link){
-    errorHandling(__FUNCTION__, mysql_error());
-  }
-
-  $db_selected = mysql_select_db('wdsj', $link);
-  if (!$db_selected){
-    errorHandling(__FUNCTION__, mysql_error());
-  }
-
-  $fp = fopen($targetFile,"r");
-  $xml = fread($fp, filesize($targetFile));
-  fclose($fp);
-
-  $jarFilePath = "saxon/lib/saxon9he.jar";
 
   $query = "";
   if( $into=="jalc" ){
-    $output = "jalc.xml"
-    $query = "INSERT INTO doc VALUES('".$doi."',1,1,2,'".$xml."')";
+    $output = "jalc.xml";
+    $query = "INSERT INTO doc VALUES('".$doi."',1,1,2,'".$xml+"')";
     $cmd = escapeshellcmd("java -jar".$jarFilePath."-o ".$output." -xsd -xsl iugonet2jalc.xsl -xslversion 2 ");
     $result = shell_exec($cmd);
     if($result){
       echo $result;
     }else if($result==false){
-      echo "NG";
+      errorHandling(__FUNCTION__, $into);
     }
-
-    $fp = fopen("/tmp/test6","w+");
-    fwrite($fp, $query);
-    fclose($fp);
   }else if( $into=="html" ){
-    $output = "index.html"
+    $output = "index.html";
     $query = "INSERT INTO doc VALUES('".$doi."',1,1,3,'".$xml."')";
     $cmd = escapeshellcmd("java -jar".$jarFilePath."-o ".$output." -xsd -xsl iugonet2html.xsl -xslversion 2 ");
     $result = shell_exec($cmd);
     if($result){
       echo $result;
     }else if($result==false){
-      echo "NG";
+      errorHandling(__FUNCTION__, $into);
     }
-
-    $fp = fopen("/tmp/test7","w+");
-    fwrite($fp, $query);
-    fclose($fp);
   }
 
-  $result = mysql_query($query);
-  if (!$result) {
+  $fp = fopen("/tmp/test6","w+");
+  fwrite($fp, $query);
+  fclose($fp);
+
+  $stmt = $dbn->query($query);
+  if (!$stmt){
     errorHandling(__FUNCTION__, mysql_error());
   }
-
 }
 
 function errorHandling($errorFunctionName, $comment){
   // delete file;  
 
   $fp = fopen("/tmp/test2","w+");
-  fwrite($fp, $errorFunctionName."() error!");
+  fwrite($fp, $errorFunctionName."() error!".$comment);
   fclose($fp);
   // print error message;
 
-  die('[WDSJ] Database Selection Error'.$errorFunctionName);
-
+  die($errorFunctionName.$comment);
 }
 
 function checkDoiPrefix(){
