@@ -10,7 +10,7 @@ $password = 'pass';
 $dbn = '';
 
 $xml = '';
-$jarFilePath = "saxon/lib/saxon9he.jar";
+$saxon = "saxon/lib/saxon9he.jar";
 
 function upload(){
   global $targetPath, $targetFile;
@@ -99,7 +99,7 @@ function transform($into){
   global $dbn;
 
   global $xml;
-  global $jarFilePath;
+  global $saxon;
 
   if( $into!="jalc" and $into!="html" ){
     errorHandling(__FUNCTION__, 'argument error');
@@ -109,7 +109,7 @@ function transform($into){
   if( $into=="jalc" ){
     $output = "jalc.xml";
     $query = "INSERT INTO doc VALUES('".$doi."',1,1,2,'".$xml+"')";
-    $cmd = escapeshellcmd("java -jar".$jarFilePath."-o ".$output." -xsd -xsl iugonet2jalc.xsl -xslversion 2 ");
+    $cmd = escapeshellcmd("java -jar".$saxon."-s".$source."-o ".$output." -xsd -xsl iugonet2jalc.xsl -xslversion 2 ");
     $result = shell_exec($cmd);
     if($result){
       echo $result;
@@ -119,7 +119,7 @@ function transform($into){
   }else if( $into=="html" ){
     $output = "index.html";
     $query = "INSERT INTO doc VALUES('".$doi."',1,1,3,'".$xml."')";
-    $cmd = escapeshellcmd("java -jar".$jarFilePath."-o ".$output." -xsd -xsl iugonet2html.xsl -xslversion 2 ");
+    $cmd = escapeshellcmd("java -jar".$saxon."-s".$source."-o ".$output." -xsd -xsl iugonet2html.xsl -xslversion 2 ");
     $result = shell_exec($cmd);
     if($result){
       echo $result;
