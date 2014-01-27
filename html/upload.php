@@ -9,8 +9,7 @@ $user = 'insertOnlyUser';
 $password = 'pass';
 $dbn = '';
 
-$xml = '';
-$saxon = "saxon/lib/saxon9he.jar";
+$saxon = "/var/www/html/saxon/lib/saxon9he.jar";
 
 function upload(){
   global $targetPath, $targetFile;
@@ -18,7 +17,7 @@ function upload(){
   $ds = DIRECTORY_SEPARATOR;
   $storeFolder = 'uploads';
 
-  if ( !empty($_FILES) ){
+  if( !empty($_FILES) ){
     $tempFile = $_FILES['file']['tmp_name'];
     $targetPath = dirname(__FILE__).$ds.$storeFolder.$ds;
     $targetFile = $targetPath.$_FILES['file']['name'];
@@ -82,6 +81,8 @@ function insertIntoIUGONET(){
   $xml = fread($fp, filesize($targetFile));
   fclose($fp);
 
+  $xml = addslashes($xml);
+
   $query = "INSERT INTO doc VALUES('".$doi."',1,1,1,'".$xml."')";
 
   $stmt = $dbn->query($query);
@@ -98,7 +99,6 @@ function transform($into){
   global $password;
   global $dbn;
 
-  global $xml;
   global $saxon;
 
   if( $into!="jalc" and $into!="html" ){
@@ -106,31 +106,46 @@ function transform($into){
   }
 
   $query = "";
+  $doc_type = "";
+  $output = "";
+
   if( $into=="jalc" ){
-    $output = "jalc.xml";
-    $query = "INSERT INTO doc VALUES('".$doi."',1,1,2,'".$xml+"')";
-    $cmd = escapeshellcmd("java -jar".$saxon."-s".$source."-o ".$output." -xsd -xsl iugonet2jalc.xsl -xslversion 2 ");
+    $output = "/var/www/html/uploads/jalc.xml";
+    $doc_type = 2;
+
+    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugonet2jalc.xsl -xsltversion:2.0 -o:".$output);
     $result = shell_exec($cmd);
-    if($result){
-      echo $result;
-    }else if($result==false){
-      errorHandling(__FUNCTION__, $into);
+
+    $fp = fopen("/tmp/test3","w+");
+    fwrite($fp, $cmd);
+    fclose($fp);
+
+    /*
+    if( $result==false ){
+      errorHandling(__FUNCTION__, $cmd);
     }
+    */
   }else if( $into=="html" ){
-    $output = "index.html";
-    $query = "INSERT INTO doc VALUES('".$doi."',1,1,3,'".$xml."')";
-    $cmd = escapeshellcmd("java -jar".$saxon."-s".$source."-o ".$output." -xsd -xsl iugonet2html.xsl -xslversion 2 ");
+    $output = "/var/www/html/uploads/index.html";
+    $doc_type = 3;
+
+    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -o:".$output." -xsl:/var/www/html/xsl/iugonet2html.xsl -xsltversion:2.0");
     $result = shell_exec($cmd);
-    if($result){
-      echo $result;
-    }else if($result==false){
+    /*
+    if( $result==false ){
       errorHandling(__FUNCTION__, $into);
     }
+    */
   }
 
-  $fp = fopen("/tmp/test6","w+");
-  fwrite($fp, $query);
+  $fp = fopen($output, "w+");
+  $xml = fread($fp, filesize($output));
   fclose($fp);
+
+  $xml = addslashes($xml);
+
+  $query = "INSERT INTO doc VALUES('".$doi."',1,1,".$doc_type.",'".$xml."')";
+
 
   $stmt = $dbn->query($query);
   if (!$stmt){
