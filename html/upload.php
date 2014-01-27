@@ -1,5 +1,4 @@
 <?php
-$targetPath = '';
 $targetFile = '';
 $doi = '';
 $dom = '';
@@ -12,7 +11,7 @@ $dbn = '';
 $saxon = "/var/www/html/saxon/lib/saxon9he.jar";
 
 function upload(){
-  global $targetPath, $targetFile;
+  global $targetFile;
 
   $ds = DIRECTORY_SEPARATOR;
   $storeFolder = 'uploads';
@@ -105,7 +104,6 @@ function transform($into){
     errorHandling(__FUNCTION__, 'argument error');
   }
 
-  $query = "";
   $doc_type = "";
   $output = "";
 
@@ -116,10 +114,6 @@ function transform($into){
     $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugonet2jalc.xsl -xsltversion:2.0 -o:".$output);
     $result = shell_exec($cmd);
 
-    $fp = fopen("/tmp/test3","w+");
-    fwrite($fp, $cmd);
-    fclose($fp);
-
     /*
     if( $result==false ){
       errorHandling(__FUNCTION__, $cmd);
@@ -129,7 +123,7 @@ function transform($into){
     $output = "/var/www/html/uploads/index.html";
     $doc_type = 3;
 
-    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -o:".$output." -xsl:/var/www/html/xsl/iugonet2html.xsl -xsltversion:2.0");
+    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugonet2html.xsl -xsltversion:2.0 -o:".$output);
     $result = shell_exec($cmd);
     /*
     if( $result==false ){
@@ -138,15 +132,13 @@ function transform($into){
     */
   }
 
-  $fp = fopen($output, "w+");
+  $fp = fopen($output, "r");
   $xml = fread($fp, filesize($output));
   fclose($fp);
 
   $xml = addslashes($xml);
 
   $query = "INSERT INTO doc VALUES('".$doi."',1,1,".$doc_type.",'".$xml."')";
-
-
   $stmt = $dbn->query($query);
   if (!$stmt){
     errorHandling(__FUNCTION__, mysql_error());
@@ -168,12 +160,14 @@ function checkDoiPrefix(){
 
 }
 
-upload();
-checkFileType();
-readXML();
-validateXML();
-getDoi();
-insertIntoIUGONET();
-transform("jalc");
-transform("html");
+$up = upload();
+if( $up==0 ){
+  checkFileType();
+  readXML();
+  validateXML();
+  getDoi();
+  insertIntoIUGONET();
+  transform("jalc");
+  transform("html");
+}
 ?>
