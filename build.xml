@@ -163,6 +163,14 @@
       <arg value="install" />
       <arg value="phpunit/PHPUnit" />
     </exec>
+    <exec executable="pear">
+      <arg value="channel-discover" />
+      <arg value="pear.php.net" />
+    </exec>
+    <exec executable="pear">
+      <arg value="install" />
+      <arg value="HTTP_Upload" />
+    </exec>
   </target>
 
   <target name="iptables" description="Set iptables">
