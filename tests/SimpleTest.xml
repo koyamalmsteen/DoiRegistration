@@ -1,5 +1,7 @@
 <project name="SimpleTest" basedir="." default="test">
-  <property name="webtest.home" location="." />
+  <property file="../build.properties" />
+  <property name="webtest.home" location="${dst_canoo}" />
+  <import file="${webtest.home}/webtest.xml"
 
   <target name="test">
     <webtest name="my simple Test">
