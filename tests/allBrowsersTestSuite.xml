@@ -1,9 +1,11 @@
 <project default="all">
+  <property name="suite.xml" value="allUseCases.xml" />
+
   <target name="all">
-    <ant antfile="SimpleTest.xml">
+    <ant antfile="${suite.xml}">
       <property file="properties/ff10.properties" />
     </ant>
-    <ant antfile="SimpleTest.xml">
+    <ant antfile="${suite.xml}">
       <property file="properties/ie8.properties" />
     </ant>
   </target>
