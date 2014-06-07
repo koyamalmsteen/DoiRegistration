@@ -1,7 +1,6 @@
 <project name="SimpleTest" basedir="." default="wt.full">
   
   <property name="webtest.home" location="." />
-  <import file="${webtest.home}/webtest.xml" />
 
   <target name="wt.testInWork">
     <config browser="ff3" />
