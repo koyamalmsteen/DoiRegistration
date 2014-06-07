@@ -1,13 +1,14 @@
-<project name="SimpleTest" basedir=".">
+<project name="SimpleTest" basedir="." default="test">
   <property name="webtest.home" location="." />
 
-  <target name="wt.testInWork">
-    <config browser="ff10" />
+  <target name="test">
     <webtest name="my simple Test">
+      <config browser="ff10" />
       <invoke url="http://www.myserver.com:8080/myApp/login"
 	      description="get Login Page" />
       <verifyTitle text="Login Page"
 		   description="we should see the login title" />
+      <echo message="hoge" />
     </webtest>
   </target>
 </project>

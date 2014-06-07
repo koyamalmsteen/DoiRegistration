@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<project default="testSuite">
+<project default="SimpleTest">
   
-  <target name="testSuite">
+  <target name="SimpleTest">
     <ant antfile="SimpleTest.xml" />
   </target>
 </project>

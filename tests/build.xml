@@ -1,7 +1,7 @@
 <project>
   <property name="webtest.home" location="." />
   
-  <target name="wt.testInWork">
+  <target name="allBrowsersTestSuite">
     <ant dir="." antfile="allBrowsersTestSuite.xml" />
   </target>
 </project>

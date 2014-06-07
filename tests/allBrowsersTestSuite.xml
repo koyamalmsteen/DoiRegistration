@@ -1,7 +1,7 @@
-<project default="all">
+<project default="allUseCases">
   <property name="suite.xml" value="allUseCases.xml" />
 
-  <target name="all">
+  <target name="allUseCases">
     <ant antfile="${suite.xml}">
       <property file="properties/ff10.properties" />
     </ant>
