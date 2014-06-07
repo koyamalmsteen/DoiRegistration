@@ -1,9 +1,8 @@
-<project name="SimpleTest" basedir="." default="wt.full">
-  
+<project name="SimpleTest" basedir=".">
   <property name="webtest.home" location="." />
 
   <target name="wt.testInWork">
-    <config browser="ff3" />
+    <config browser="IE8" />
     <webtest name="my simple Test">
       <invoke url="http://www.myserver.com:8080/myApp/login"
 	      description="get Login Page" />

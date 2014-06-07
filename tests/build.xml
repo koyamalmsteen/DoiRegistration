@@ -1,8 +1,7 @@
-<project default="wt.full">
-  
+<project>
   <property name="webtest.home" location="." />
   
   <target name="wt.testInWork">
-    <ant dir="./tests" file="allTests.xml" />
+    <ant dir="." antfile="allBrowsersTestSuite.xml" />
   </target>
 </project>
