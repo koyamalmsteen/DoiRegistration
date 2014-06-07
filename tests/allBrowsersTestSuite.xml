@@ -1,6 +1,10 @@
 <project default="all">
   <target name="all">
-    <ant antfile="SimpleTest_FF.xml" />
-    <ant antfile="SimpleTest_IE.xml" />
+    <ant antfile="SimpleTest.xml">
+      <property file="properties/ff10.properties" />
+    </ant>
+    <ant antfile="SimpleTest.xml">
+      <property file="properties/ie8.properties" />
+    </ant>
   </target>
 </project>
