@@ -5,9 +5,9 @@
   <property name="hostname" value="${env.HOSTNAME}" />
 
 <!--
-  <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, d2rq, saxon, canoo, final_message" description="Install all" />
+  <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, d2rq, saxon, canoo, mockftpserver, final_message" description="Install all" />
 -->
-  <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, saxon, canoo, final_message" description="Install all" />
+  <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, saxon, canoo, mockftpserver, final_message" description="Install all" />
 
   <target name="full" depends="all, tools" description="After Install all, it start to install IUGONET Metadata Editor" />
 
@@ -256,6 +256,14 @@
   <target name="canoo" description="Install canoo">
     <get src="${src_canoo}" dest="${dst_canoo}" usetimestamp="true" />
     <unzip src="${dst_canoo}" dest="${src}/canoo" />
+    <chmod perm="gou+x" file="${src}/canoo/bin/*" />
+  </target>
+
+  <target name="mockftpserver" description="Install MockFtpServer">
+    <get src="${src_mockftpserver}" dest="${dst_mockftpserver}" usetimestamp="true" />
+    <exec executable="tar" dir="${src}">
+      <arg line="xvzf ${dst_mockftpserver}" />
+    </exec>
     <chmod perm="gou+x" file="${src}/canoo/bin/*" />
   </target>
 
