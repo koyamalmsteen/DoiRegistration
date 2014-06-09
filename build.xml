@@ -256,6 +256,7 @@
   <target name="canoo" description="Install canoo">
     <get src="${src_canoo}" dest="${dst_canoo}" usetimestamp="true" />
     <unzip src="${dst_canoo}" dest="${src}/canoo" />
+    <chmod perm="gou+x" file="${src}/canoo/bin/*" />
   </target>
 
   <target name="tools" description="Install tools">
