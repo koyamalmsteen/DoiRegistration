@@ -4,7 +4,10 @@
   <property file="build.properties" />
   <property name="hostname" value="${env.HOSTNAME}" />
 
+<!--
   <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, d2rq, saxon, canoo, final_message" description="Install all" />
+-->
+  <target name="all" depends="clean, init, drupal, drush, httpd, iptables, site-install, modules, archive-restore, html, dropzone, saxon, canoo, final_message" description="Install all" />
 
   <target name="full" depends="all, tools" description="After Install all, it start to install IUGONET Metadata Editor" />
 
@@ -218,6 +221,7 @@
     </exec>
   </target>     
 
+<!--
   <target name="d2rq" description="Install D2RQ">
     <get src="${src_d2rq}" dest="${dst_d2rq}" usetimestamp="true" />
     <exec executable="tar" dir="${src}">
@@ -237,6 +241,7 @@
       <arg line="iugonet.ttl" />
     </exec>
   </target>
+  -->
 
   <target name="saxon" description="Install saxon-he">
     <get src="${src_saxon}" dest="${dst_saxon}" usetimestamp="true" />
