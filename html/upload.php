@@ -82,7 +82,7 @@ function insertIntoIUGONET(){
 
   $xml = addslashes($xml);
 
-  $query = "INSERT INTO doc VALUES('".$doi."',1,1,1,'".$xml."')";
+  $query = "INSERT INTO doc VALUES('".$doi."',1,1,NOW(),1,'".$xml."')";
 
   $stmt = $dbn->query($query);
   if (!$stmt){
@@ -138,7 +138,7 @@ function transform($into){
 
   $xml = addslashes($xml);
 
-  $query = "INSERT INTO doc VALUES('".$doi."',1,1,".$doc_type.",'".$xml."')";
+  $query = "INSERT INTO doc VALUES('".$doi."',1,1,NOW(),".$doc_type.",'".$xml."')";
   $stmt = $dbn->query($query);
   if (!$stmt){
     errorHandling(__FUNCTION__, mysql_error());

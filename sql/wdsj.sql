@@ -14,6 +14,7 @@ CREATE TABLE doc(
        doi_suffix CHAR(255) NOT NULL,	
        version INTEGER NOT NULL,
        user_id INTEGER NOT NULL,
+       time_stamp TIMESTAMP NOT NULL,
        doc_type_id INTEGER NOT NULL,
        document TEXT NOT NULL,
        PRIMARY KEY (doi_suffix, version, user_id, doc_type_id),
