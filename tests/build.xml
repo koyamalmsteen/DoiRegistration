@@ -1,6 +1,5 @@
-<project>
-  <property name="webtest.home" location="." />
-  
+<project default="allBrowsersTestSuite">
+
   <target name="allBrowsersTestSuite">
     <ant dir="." antfile="allBrowsersTestSuite.xml" />
   </target>

@@ -26,7 +26,7 @@
   <target name="init" description="Initialize">
     <mkdir dir="${src}" />
     <exec executable="yum">
-      <arg line="-y install php php-common php-pdo php-gd php-xml php-mbstring php-pear ImageMagick mysql-server php-mysql" />
+      <arg line="-y install php php-common php-pdo php-gd php-xml php-mbstring php-pear ImageMagick mysql-server php-mysql java-1.7.0-openjdk java-1.7.0-openjdk-devel" />
     </exec>
     <exec executable="/etc/init.d/mysqld">
       <arg value="start" />
