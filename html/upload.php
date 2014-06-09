@@ -111,7 +111,7 @@ function transform($into){
     $output = "/var/www/html/uploads/jalc.xml";
     $doc_type = 2;
 
-    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugonet2jalc.xsl -xsltversion:2.0 -o:".$output);
+    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugo2jalc.xsl -xsltversion:2.0 -o:".$output);
     $result = shell_exec($cmd);
 
     /*
@@ -123,7 +123,7 @@ function transform($into){
     $output = "/var/www/html/uploads/index.html";
     $doc_type = 3;
 
-    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugonet2html.xsl -xsltversion:2.0 -o:".$output);
+    $cmd = escapeshellcmd("java -jar ".$saxon." -s:".$targetFile." -xsl:/var/www/html/xsl/iugo2xhtml.xsl -xsltversion:2.0 -o:".$output);
     $result = shell_exec($cmd);
     /*
     if( $result==false ){
